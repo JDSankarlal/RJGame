@@ -29,6 +29,5 @@ text = "Resume"
 layout_mode = 2
 text = "Exit"
 
-[connection signal="mouse_entered" from="Control/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_mouse_entered"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

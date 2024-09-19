@@ -16,9 +16,9 @@ func _process(_delta):
 func pauseMenu():
 	if paused:
 		pause_menu.hide()
-		#get_tree().paused = false
+		get_tree().paused = false
 	else:
 		pause_menu.show()
-		#get_tree().paused = true
+		get_tree().paused = true
 	
 	paused = !paused

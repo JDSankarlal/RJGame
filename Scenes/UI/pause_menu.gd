@@ -11,15 +11,8 @@ func _ready():
 func _process(_delta):
 	pass
 
-
 func _on_exit_pressed():
 	get_tree().quit()
 
-
 func _on_resume_pressed():
-	print("HERE")
 	world.pauseMenu()
-
-
-func _on_resume_mouse_entered():
-	print("HERE2")
