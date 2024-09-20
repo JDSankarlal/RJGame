@@ -1,6 +1,5 @@
 [gd_scene load_steps=9 format=3 uid="uid://c886hi6qq3d5f"]
 
-[ext_resource type="ArrayMesh" uid="uid://dgo6jl3yenkqr" path="res://Assets/Meshes/plane.obj" id="1_673s8"]
 [ext_resource type="Shader" path="res://Scenes/terrain.gdshader" id="1_ovni4"]
 [ext_resource type="Texture2D" uid="uid://bjr42jcb2oof8" path="res://Assets/Textures/TemplateGrid_albedo.png" id="2_2pqua"]
 [ext_resource type="Script" path="res://plane.gd" id="2_x0877"]
@@ -16,16 +15,21 @@ noise = SubResource("FastNoiseLite_y4bm7")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ijdio"]
 render_priority = 0
 shader = ExtResource("1_ovni4")
-shader_parameter/height_ratio = 25.0
+shader_parameter/height_ratio = 15.0
 shader_parameter/heightmap = SubResource("NoiseTexture2D_n0ag0")
 shader_parameter/_a = ExtResource("2_2pqua")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l2ndw"]
+size = Vector2(100, 100)
+subdivide_width = 32
+subdivide_depth = 32
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.73106, 1.85588, -1.67379)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024474, -0.288676, -1.54638)
 material_override = SubResource("ShaderMaterial_ijdio")
-mesh = ExtResource("1_673s8")
+mesh = SubResource("PlaneMesh_l2ndw")
 script = ExtResource("2_x0877")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Plane"]
@@ -33,7 +37,7 @@ script = ExtResource("2_x0877")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plane/StaticBody3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.904463, 0.426553, 0, -0.426553, 0.904463, 0, 1.38778, 1.73338)
+transform = Transform3D(1, 0, 0, 0, 0.904463, 0.426553, 0, -0.426553, 0.904463, 0, 30.5394, 57.8756)
 
 [node name="Player" parent="." instance=ExtResource("6_bw0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.139017, 177.513, 0.310773)
