@@ -8,6 +8,7 @@ void vertex() {
 	// Called for every vertex the material is visible on.
 	VERTEX.y+=texture(heightmap, UV).r * height_ratio;
 
+
 }
 
 void fragment() {
