@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c886hi6qq3d5f"]
+[gd_scene load_steps=7 format=3 uid="uid://c886hi6qq3d5f"]
 
 [ext_resource type="Shader" path="res://Scenes/terrain.gdshader" id="1_ovni4"]
 [ext_resource type="Texture2D" uid="uid://bjr42jcb2oof8" path="res://Assets/Textures/TemplateGrid_albedo.png" id="2_2pqua"]
@@ -8,34 +8,26 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_17q8b"]
 render_priority = 0
 shader = ExtResource("1_ovni4")
-shader_parameter/height_ratio = 15.19
+shader_parameter/height_ratio = 14.0
 shader_parameter/heightmap = ExtResource("6_m4y3s")
 shader_parameter/_a = ExtResource("2_2pqua")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ato7k"]
 size = Vector2(100, 100)
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_21sem"]
-
-[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_haqo0"]
+subdivide_width = 100
+subdivide_depth = 100
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.904463, 0.426553, 0, -0.426553, 0.904463, 0, 30.5394, 76.8756)
+transform = Transform3D(1, 0, 0, 0, 0.904463, 0.426553, 0, -0.426553, 0.904463, 0, 18.4341, 76.8756)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_17q8b")
 mesh = SubResource("PlaneMesh_ato7k")
 skeleton = NodePath("StaticBody3D")
 script = ExtResource("4_wtiky")
-heightmap_shape = SubResource("HeightMapShape3D_21sem")
-heightmap_texture = ExtResource("6_m4y3s")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-shape = SubResource("HeightMapShape3D_haqo0")

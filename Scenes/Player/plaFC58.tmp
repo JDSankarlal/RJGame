@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtswrhl0gjxoe"]
+
+[ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_5i4c7"]
+[ext_resource type="Script" path="res://Scenes/Player/movement_controller.gd" id="2_0voo0"]
+[ext_resource type="Script" path="res://Scenes/Player/camera_root.gd" id="2_of26o"]
+[ext_resource type="PackedScene" uid="uid://dnwdnd2r1cnkm" path="res://Scenes/Player/cam_root.tscn" id="3_ws1mk"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1afe5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o5y8b"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_5i4c7")
+
+[node name="MovementController" type="Node" parent="."]
+script = ExtResource("2_0voo0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1afe5")
+
+[node name="Mesh shape for testing" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_o5y8b")
+skeleton = NodePath("")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="CameraRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44162, 1.52116)
+visible = false
+script = ExtResource("2_of26o")
+
+[node name="Yaw" type="Node3D" parent="CameraRoot"]
+transform = Transform3D(1, 0, 0, 0, 0.975087, 0.221821, 0, -0.221821, 0.975087, 0, 0, 0)
+
+[node name="Pitch" type="Node3D" parent="CameraRoot/Yaw"]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRoot/Yaw/Pitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+current = true
+
+[node name="CamRoot" parent="." instance=ExtResource("3_ws1mk")]
+script = null
