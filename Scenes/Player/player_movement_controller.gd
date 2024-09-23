@@ -17,7 +17,6 @@ func _ready():
 	player_init_rotation = player.rotation.y
 
 func _physics_process(delta):
-	print(speed)
 	velocity.x = -(speed * direction.normalized().x)
 	velocity.z = -(speed * direction.normalized().z)
 	
@@ -28,18 +27,16 @@ func _physics_process(delta):
 			velocity.y -= fall_gravity * delta
 	
 	player.velocity = player.velocity.lerp(velocity, acceleration * delta)
-	print(player.velocity)
 	player.move_and_slide()
 	
 	var target_rotation = atan2(direction.x, direction.z) - player_init_rotation
 	mesh_root.rotation.y = lerp_angle(mesh_root.rotation.y, target_rotation, rotation_speed * delta)
 
-
+# Incase we want to add jumping
 #func _jump(jump_state : JumpState):
 	#velocity.y = 2 * jump_state.jump_height / jump_state.apex_duration
 	#jump_gravity = velocity.y / jump_state.apex_duration
-#
-#
+	
 func _on_set_movement_state(_movement_state : PlayerMovementState):
 	speed = _movement_state.movement_speed
 	acceleration =  _movement_state.acceleration

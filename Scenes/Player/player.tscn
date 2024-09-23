@@ -44,6 +44,6 @@ spring_length = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3899, 3.28765)
 
 [connection signal="changed_movement_direction" from="." to="MovementController" method="_on_set_movement_direction"]
-[connection signal="changed_movement_state" from="." to="CameraRoot" method="_on_set_movement_state"]
 [connection signal="changed_movement_state" from="." to="MovementController" method="_on_set_movement_state"]
+[connection signal="changed_movement_state" from="." to="CameraRoot" method="_on_set_movement_state"]
 [connection signal="set_cam_rotation" from="CameraRoot" to="MovementController" method="_on_set_cam_rotation"]

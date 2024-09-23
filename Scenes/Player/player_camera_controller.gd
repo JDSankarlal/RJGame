@@ -4,7 +4,7 @@ signal set_cam_rotation(_cam_rotation : float)
 
 @onready var yaw_node = $CamYaw
 @onready var pitch_node = $CamYaw/CamPitch
-#@onready var spring_arm = $CamYaw/CamPitch/SpringArm3D
+@onready var spring_arm = $CamYaw/CamPitch/SpringArm3D
 @onready var camera = $CamYaw/CamPitch/SpringArm3D/Camera3D
 
 var yaw : float = 0
@@ -26,8 +26,7 @@ var position_offset_target : Vector3 = Vector3(0, 1.3, 0)
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	#spring_arm.add_excluded_object(player.get_rid())
-	#top_level = true
+	
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -37,26 +36,19 @@ func _input(event):
 func _physics_process(delta):
 	#position_offset = lerp(position_offset, position_offset_target, 4 * delta)
 	#global_position = lerp(global_position, player.global_position + position_offset, 18 * delta)
-	#
+	
 	pitch = clamp(pitch, pitch_min, pitch_max)
 	
 	yaw_node.rotation_degrees.y = lerp(yaw_node.rotation_degrees.y, yaw, yaw_acceleration * delta)
 	pitch_node.rotation_degrees.x = lerp(pitch_node.rotation_degrees.x, pitch, pitch_acceleration * delta)
 	
-	#if you don't want to lerp, set them directly
-	#yaw_node.rotation_degrees.y = yaw
-	#pitch_node.rotation_degrees.x = pitch
-	
 	set_cam_rotation.emit(yaw_node.rotation.y)
 	
 	
 func _on_set_movement_state(_movement_state : PlayerMovementState):
+	# Changing Field of View with tweens
 	if tween:
 		tween.kill()
-	#
+	
 	tween = create_tween()
 	tween.tween_property(camera, "fov", _movement_state.camera_fov, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-#
-#
-#func _on_set_stance(_stance : Stance):
-	#position_offset_target.y = _stance.camera_height
