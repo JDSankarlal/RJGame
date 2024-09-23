@@ -17,8 +17,11 @@ func pauseMenu():
 	if paused:
 		pause_menu.hide()
 		get_tree().paused = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		
 	else:
 		pause_menu.show()
 		get_tree().paused = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	paused = !paused
