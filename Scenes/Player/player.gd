@@ -1,37 +1,72 @@
 extends CharacterBody3D
 
-# How fast the player moves in meters per second.
-@export var speed = 14
-# The downward acceleration when in the air, in meters per second squared.
-@export var fall_acceleration = 75
+signal changed_movement_state(_movement_state: PlayerMovementState)
+signal changed_movement_direction(_movement_direction: Vector3)
 
-var target_velocity = Vector3.ZERO
+@export var movement_states : Dictionary
+
+var movement_direction : Vector3
+var current_movement_state_name : String
+
+func _ready():
+	changed_movement_direction.emit(Vector3.BACK)
+	changed_movement_state.emit(movement_states["idle"])
+
+
+func _input(event):
+	# Movement is wasd or shift. That is then broken down into move_right, move_left, etc.
+	if event.is_action_pressed("movement") or event.is_action_released("movement"):
+		movement_direction.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+		movement_direction.z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_back")
+		
+		# Figure out the state of the movement.
+		if is_movement_ongoing():
+			if Input.is_action_pressed("run"):
+				set_movement_state("run")
+			else:
+				set_movement_state("walk")
+		else:
+			set_movement_state("idle")
+	
+	# Jump functionality if we ever need it.
+	#if event.is_action_pressed("jump"):
+		#if air_jump_counter <= max_air_jump:
+			#if is_stance_blocked("upright"):
+				#return
+			#
+			#if current_stance_name != "upright" and current_stance_name != "stealth":
+				#set_stance("upright")
+				#return
+			#
+			#var jump_name = "ground_jump"
+			#
+			#if air_jump_counter > 0:
+				#jump_name = "air_jump"
+			#
+			#pressed_jump.emit(jump_states[jump_name])
+			#air_jump_counter += 1
+	#
+	#if is_on_floor():
+		#for stance in stances.keys():
+			#if event.is_action_pressed(stance):
+				#set_stance(stance)
 
 
 func _physics_process(delta):
-	var direction = Vector3.ZERO
+	if is_movement_ongoing():
+		changed_movement_direction.emit(movement_direction)
+	
+	# Jump functionality if we ever need it.
+	#if is_on_floor():
+		#air_jump_counter = 0
+	#elif air_jump_counter == 0:
+		#air_jump_counter = 1
 
-	if Input.is_action_pressed("move_right"):
-		direction.x += 1
-	if Input.is_action_pressed("move_left"):
-		direction.x -= 1
-	if Input.is_action_pressed("move_back"):
-		direction.z += 1
-	if Input.is_action_pressed("move_forward"):
-		direction.z -= 1
 
-	if direction != Vector3.ZERO:
-		direction = direction.normalized()
-		#$Pivot.basis = Basis.looking_at(direction)
+func is_movement_ongoing() -> bool:
+	return abs(movement_direction.x) > 0 or abs(movement_direction.z) > 0
 
-	# Ground Velocity
-	target_velocity.x = direction.x * speed
-	target_velocity.z = direction.z * speed
 
-	# Vertical Velocity
-	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
-
-	# Moving the Character
-	velocity = target_velocity
-	move_and_slide()
+func set_movement_state(state : String):
+	current_movement_state_name = state
+	changed_movement_state.emit(movement_states[state])

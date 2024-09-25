@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_12"
+type="Resource"
+uid="uid://daf6o2xycdwqn"
+path="res://.godot/imported/lodge_test.dialogue-9da98fc4f9a624b270690466a2bdbab6.tres"
+
+[deps]
+
+source_file="res://Dialogues/Test/lodge_test.dialogue"
+dest_files=["res://.godot/imported/lodge_test.dialogue-9da98fc4f9a624b270690466a2bdbab6.tres"]
+
+[params]
+
+defaults=true
