@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtswrhl0gjxoe"]
+
+[ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_5i4c7"]
+[ext_resource type="Script" path="res://Scenes/Player/player_movement_controller.gd" id="2_2i4ks"]
+[ext_resource type="Script" path="res://Scenes/Player/player_camera_controller.gd" id="2_mkfm0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1afe5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o5y8b"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6lvoq"]
+radius = 0.07
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_5i4c7")
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("player", "mesh_root")]
+script = ExtResource("2_2i4ks")
+player = NodePath("..")
+mesh_root = NodePath("../MeshRoot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1afe5")
+
+[node name="MeshRoot" type="Node3D" parent="."]
+
+[node name="Mesh shape for testing" type="MeshInstance3D" parent="MeshRoot"]
+mesh = SubResource("CapsuleMesh_o5y8b")
+skeleton = NodePath("")
+
+[node name="CameraRoot" type="Node3D" parent="."]
+script = ExtResource("2_mkfm0")
+
+[node name="CamYaw" type="Node3D" parent="CameraRoot"]
+
+[node name="CamPitch" type="Node3D" parent="CameraRoot/CamYaw"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRoot/CamYaw/CamPitch"]
+shape = SubResource("SphereShape3D_6lvoq")
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraRoot/CamYaw/CamPitch/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3899, 3.28765)
+
+[connection signal="changed_movement_direction" from="." to="MovementController" method="_on_set_movement_direction"]
+[connection signal="changed_movement_state" from="." to="MovementController" method="_on_set_movement_state"]
+[connection signal="changed_movement_state" from="." to="CameraRoot" method="_on_set_movement_state"]
+[connection signal="set_cam_rotation" from="CameraRoot" to="MovementController" method="_on_set_cam_rotation"]
